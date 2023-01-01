@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useContext } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
+import AuthContext from '../../store/auth-context';
 
 // reducer function takes a state and action and returns a new state
 const emailReducer = (state, action) => {
@@ -38,6 +39,8 @@ const Login = (props) => {
   // and returns a state snapshot and dispatch function
   const [emailState, dispatchEmail] = useReducer(emailReducer, { value: '', isValid: false });
   const [passwordState, dispatchPassword] = useReducer(passwordReducer, { value: '', isValid: false })
+
+  const authCtx = useContext(AuthContext);
 
   // You can use object destructuring or just use the object property directly,
   // i.e. emailState.isValid as I did below as a dependency in useEffect
@@ -93,7 +96,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    authCtx.onLogin(emailState.value, passwordState.value);
   };
 
   return (
